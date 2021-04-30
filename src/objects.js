@@ -1,9 +1,9 @@
 class Todo{
-    constructor(title, project, priority, description){
+    constructor(title, project, description, priority){
         this.title = title;
         this.project = project;
-        this.priority = priority;
         this.description = description;
+        this.priority = priority;
     }
 }
 
