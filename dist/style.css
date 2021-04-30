@@ -122,14 +122,13 @@ main h1{
   margin-left: 5px;
 }
 
-.fa-flag{
-  color: rgb(42, 155, 42);
-}
-
 .fa-trash-alt:hover{
   color: #f03333;
 }
 
+.far{
+  margin-left: 5px;
+}
 
 /*POPUP-SCREEN*/
 .popup{
@@ -153,6 +152,14 @@ main h1{
   margin-left: 5rem;
   position: relative;
   transition: 200ms ease;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Animation to popup-content */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
 }
 
 .popup-content
@@ -168,7 +175,7 @@ input{
   display: inline-block;
 }
 
-.addtodo{
+.btnAddTodo{
   font-family: Arial, Helvetica, sans-serif;
   background: #2b2e30;
   padding: 3% 9%;
@@ -181,7 +188,15 @@ input{
   transition: 0.4s;
   display: block;
   margin-top: 6%;
+}
 
+#btnAdd,
+#btnEdit{
+  display: none;
+}
+
+#edit{
+  display: none;
 }
 
 /* Small screens */

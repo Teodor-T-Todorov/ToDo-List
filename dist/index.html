@@ -7,8 +7,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/9e2267d4eb.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!--FONT-->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css"> <!--NOTIE library-->
+    <script src="https://kit.fontawesome.com/9e2267d4eb.js" crossorigin="anonymous"></script> <!--ICONS-->
 </head>
 <body>
 
@@ -53,37 +54,15 @@
         <h1>TO-DO LIST</h1>
          
         <div class="container">
-            <div class="todo">
-                <div class="lhs">
-                    <input type="checkbox">
-                    <p class="title-todo"> Workout</p>
-                </div>
-
-                <div class="rhs">
-                    <i class="fas fa-flag"></i>
-                    <i class="far fa-trash-alt"></i>
-                </div>
-            </div>
-
-            <div class="todo">
-                <div class="lhs">
-                    <input type="checkbox">
-                    <p class="title-todo">Study</p>
-                </div>
-
-                <div class="rhs">
-                    <i class="fas fa-flag"></i>
-                    <i class="far fa-trash-alt"></i>
-                </div>
-            </div>
+           
         </div>
     </main>
 
-    <div class="popup" id="popup">
-        <div class="popup-content" id="popup-content">
-            <input type="text" placeholder="To-Do" id = "todoInput">
-            <input type="text" placeholder="Project" id = "projectInput">
-            <input type="text" placeholder="Description" id = "descriptionInput">
+    <div class="popup" id="add">
+        <div class="popup-content" id="add-content">
+            <input type="text" placeholder="To-Do" class="todoInput" id="todoInput">
+            <input type="text" placeholder="Project" class="projectInput" id="projectInput">
+            <input type="text" placeholder="Description" class="descriptionInput" id="descriptionInput">
 
             
             <label for="priorities">Priority:</label>
@@ -93,10 +72,12 @@
                 <option value="low">Low</option>
               </select>
 
-            <a href="#" class="addtodo">Add To-Do</a>
+            <a href="#" class="btnAddTodo" id="btnAdd">Add todo</a>
+            <a href="#" class="btnAddTodo" id="btnEdit">Edit todo</a>
         </div>
     </div>
 
     <script src="main.js"></script>
+    <script src="https://unpkg.com/notie"></script>
 </body>
 </html>
