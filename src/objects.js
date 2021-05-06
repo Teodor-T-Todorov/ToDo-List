@@ -7,4 +7,14 @@ class Todo{
     }
 }
 
-export default Todo;
+class Project{
+    constructor(name,todos) {
+        this.name = name;
+        this.todos = todos;
+    }
+
+    addTodo(object){
+        this.todos.push(object);
+    }
+}
+export {Todo, Project};

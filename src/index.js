@@ -1,5 +1,5 @@
-import {addTodo, displayTodo} from './DOM'
-import Todo from './objects'
+import {addTodo, displayTodo, createTodo, editTodo, deleteTodo} from './DOM'
+import {Todo, Project} from './objects'
 import notie from 'notie'
 
 const navbar = document.querySelector('.navbar-container');
@@ -8,16 +8,18 @@ const btnAdd = document.querySelector('#btnAdd');
 const btnEdit = document.querySelector('#btnEdit');
 const container = document.querySelector('.container');
 
-displayTodo();
+window.addEventListener('load', () => {
+    displayTodo();
+    //localStorage.clear();
+  });
 
 navbar.addEventListener('click', (e)=>{ 
 
-    // Show pop-up to add
+    // Show pop-up to add todos
     if(e.target.classList.contains('add') || e.target.className == 'link-text')
     {
         popup.style.display = 'flex';
         btnAdd.style.display = 'block';
-
     }
     
     else if(e.target.className == 'projects')
@@ -33,54 +35,59 @@ popup.addEventListener('click', (e)=>{
         popup.style.display = 'none';
         btnAdd.style.display = 'none';
         btnEdit.style.display = 'none';
-        
     }
 
-    //Add and display todo
-    if(e.target.className == 'addtodo')
+    // Add and display todo
+    else if(e.target.id == 'btnAdd')
     {
-        const title = document.querySelector('#todoInput');
-        const project = document.querySelector('#projectInput');
-        const description = document.querySelector('#descriptionInput');
-        const priority = document.querySelector('.priorities');
-        
-        const todo = new Todo(title.value, project.value, description.value, priority.value);
-
+        const todo = createTodo();
         addTodo(todo);
+
         popup.style.display = 'none';
+        btnAdd.style.display = 'none';
     }
+
+    else if(e.target.id == 'btnEdit')
+    {
+        editTodo(e);
+        
+        popup.style.display = 'none';
+        btnEdit.style.display = 'none';
+        
+    }
+
 })
 
 container.addEventListener('click', (e)=>{
-    //Delete todo
+    // Delete todo
     if(e.target.className == 'far fa-trash-alt')
     {
         notie.confirm({
             text: 'Do you want to delete this todo?',
             cancelText: 'No',
             submitCallback: () =>{
-                localStorage.removeItem(e.target.parentNode.parentNode.id - 1);
-                e.target.parentNode.parentNode.remove();
+                deleteTodo(e)
             }
         })
     }
 
-    //Edit todo
+    // Edit todo
     else if(e.target.className == 'far fa-edit')
     {
         popup.style.display = 'flex';
         btnEdit.style.display = 'block';
+        btnEdit.setAttribute('data-project', `${e.target.parentNode.parentNode.getAttribute('data-project')}`)
+        btnEdit.setAttribute('data-id', `${e.target.parentNode.parentNode.getAttribute('data-id')}`)
     }
 
-    //Complete todo
+    // Complete todo
     else if(e.target.type == 'checkbox')
     {
         notie.confirm({
             text: 'Complete todo?',
             cancelText: 'No',
             submitCallback: () => {
-                localStorage.removeItem(e.target.parentNode.parentNode.id - 1);
-                e.target.parentNode.parentNode.remove();
+                deleteTodo(e);
             },
             cancelCallback: () => {
                 e.target.checked = false;
@@ -89,4 +96,8 @@ container.addEventListener('click', (e)=>{
     }
 })
 
-console.log(localStorage)
+console.log(JSON.parse(localStorage.getItem('Study')))
+console.log(JSON.parse(localStorage.getItem('Workout')))
+
+
+//console.log('retrievedObject: ', JSON.parse(localStorage.getItem("Study")))
