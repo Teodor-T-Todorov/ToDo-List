@@ -1,5 +1,4 @@
 import {addTodo, displayTodo, createTodo, editTodo, deleteTodo} from './DOM'
-import {Todo, Project} from './objects'
 import notie from 'notie'
 
 const navbar = document.querySelector('.navbar-container');
@@ -7,6 +6,7 @@ const popup = document.querySelector('.popup');
 const btnAdd = document.querySelector('#btnAdd');
 const btnEdit = document.querySelector('#btnEdit');
 const container = document.querySelector('.container');
+const input = document.querySelectorAll('.input');
 
 window.addEventListener('load', () => {
     displayTodo();
@@ -16,10 +16,14 @@ window.addEventListener('load', () => {
 navbar.addEventListener('click', (e)=>{ 
 
     // Show pop-up to add todos
-    if(e.target.classList.contains('add') || e.target.className == 'link-text')
+    if(e.target.classList.contains('add') || e.target.id == 'add to-do')
     {
         popup.style.display = 'flex';
         btnAdd.style.display = 'block';
+
+        input.forEach(element => {
+            element.value = '';
+        });
     }
     
     else if(e.target.className == 'projects')
@@ -98,6 +102,8 @@ container.addEventListener('click', (e)=>{
 
 console.log(JSON.parse(localStorage.getItem('Study')))
 console.log(JSON.parse(localStorage.getItem('Workout')))
+console.log(localStorage)
+
 
 
 //console.log('retrievedObject: ', JSON.parse(localStorage.getItem("Study")))

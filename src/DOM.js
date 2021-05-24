@@ -2,7 +2,7 @@ import {Todo, Project} from './objects'
 const container = document.querySelector('.container');
 const input = document.querySelectorAll('.input');
 
-
+//Create a new todo object
 const createTodo = ()=>{
     const title = document.querySelector('#todoInput');
     const project = document.querySelector('#projectInput');
@@ -11,61 +11,85 @@ const createTodo = ()=>{
     return new Todo(title.value, project.value, description.value, priority.value);
 }
 
+//Display todos on the screen
 const displayTodo = ()=>{
-
     Object.keys(localStorage).forEach(function(project){
-
+        
         if(localStorage.length != 0)
         {
             const SIZE = JSON.parse(localStorage.getItem(project)).todos.length;
 
+            if(SIZE == 0)
+            {
+                localStorage.removeItem(project);
+            }
+
             for(let i = 0; i < SIZE; i++)
             {
-                let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
+                if(document.querySelector(`[data-project="${project}"][data-id="${i}"]`) == null) //Display a todo only if it's not displayed yet.
+                {
+                    let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
                 
-                const todo = document.createElement('div');
-                todo.setAttribute('class', 'todo');
-                todo.setAttribute('data-project', `${project}`);
-                todo.setAttribute('data-id', `${i}`);
-    
-                // LHS
-                const lhs = document.createElement('div');
-                lhs.setAttribute('class', 'lhs');
-                lhs.innerHTML = 
-                `
-                    <input type="checkbox">
-                    <p class="title-todo">${currentTodo.title}</p>  
-                `;
-                todo.append(lhs);
-    
-                // RHS
-                const rhs = document.createElement('div');
-                rhs.setAttribute('class', 'rhs');
-                rhs.innerHTML = 
-                `
-                    <i class="far fa-flag" title="Priority"></i>
-                    <i class="far fa-trash-alt" title="Delete todo"></i>
-                    <i class="far fa-edit" title="Edit"></i>
-                `;
-                todo.append(rhs);
-    
-                container.append(todo);
-    
+                    const todo = document.createElement('div');
+                    todo.setAttribute('class', 'todo');
+                    todo.setAttribute('data-project', `${project}`);
+                    todo.setAttribute('data-id', `${i}`);
+        
+                    // LHS
+                    const lhs = document.createElement('div');
+                    lhs.setAttribute('class', 'lhs');
+                    lhs.innerHTML = 
+                    `
+                        <input type="checkbox">
+                        <p class="title-todo">${currentTodo.title}</p>  
+                    `;
+                    todo.append(lhs);
+        
+                    // RHS
+                    const rhs = document.createElement('div');
+                    rhs.setAttribute('class', 'rhs');
+
+                    let color;
+                    switch(currentTodo.priority)
+                    {
+                        case 'high':
+                            color = 'red';
+                            break;
+                        case 'medium':
+                            color = 'orange';
+                            break;
+                        case 'low':
+                            color = 'green';
+                            break;
+                    }
+
+                    rhs.innerHTML = 
+                    `
+                        <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
+                        <i class="far fa-trash-alt" title="Delete todo"></i>
+                        <i class="far fa-edit" title="Edit"></i>
+                    `;
+                    todo.append(rhs);
+        
+                    container.append(todo);
+                }
             }
         }
     });
 }
 
+//Add todo to a project
 const addTodo = (todo)=>{
     
-    if(localStorage.getItem(todo.project) == null) //If such a project doesn't exist we create it
+    //If such a project doesn't exist we create it
+    if(localStorage.getItem(todo.project) == null) 
     {
         const newProject = new Project(todo.project, [todo]);
         localStorage.setItem(todo.project, JSON.stringify(newProject));
-        displayTodo()
     }
 
-    else //If there is such a project we add the todo to it 
+    //If there is such a project we add the todo to it 
+    else 
     {
         let arr = JSON.parse(localStorage.getItem(todo.project)).todos;
         arr.push(todo);
@@ -74,29 +98,46 @@ const addTodo = (todo)=>{
         newObject.todos = arr;
 
         localStorage.setItem(newObject.name, JSON.stringify(newObject));
-
-        displayTodo()
     }
+
+    displayTodo();
 }
 
 const editTodo = (e)=>{ 
     const project = e.target.getAttribute('data-project');
     const id = e.target.getAttribute('data-id');
-    const todo = JSON.parse(localStorage.getItem(project)).todos[id];
 
-    //Change values
-    todo.title = document.querySelector('#todoInput').value;
-    todo.project = document.querySelector('#projectInput').value;
-    todo.description = document.querySelector('#descriptionInput').value;
-    todo.priority = document.querySelector('.priorities').value;
+    const currentProject = document.querySelector('#projectInput').value;
+    const editedTodo = createTodo();
+    const arr = JSON.parse(localStorage.getItem(project)).todos;
 
-    //Change the array
-    let arr = JSON.parse(localStorage.getItem(project)).todos;
-    arr.splice(id, 1, todo);
-    let newObject = JSON.parse(localStorage.getItem(project));
-    newObject.todos = arr;
+    //If we edit in the same project
+    if(currentProject == project)
+    {    
+        arr.splice(id, 1, editedTodo);
+        let newObject = JSON.parse(localStorage.getItem(project));
+        newObject.todos = arr;
+    
+        localStorage.setItem(newObject.name, JSON.stringify(newObject));
 
-    localStorage.setItem(newObject.name, JSON.stringify(newObject));
+        location.reload();
+    }
+
+    else
+    {   
+        arr.splice(id, 1);
+        let newObject = JSON.parse(localStorage.getItem(project));
+        newObject.todos = arr;
+        localStorage.setItem(newObject.name, JSON.stringify(newObject));
+        
+        const dataProject = e.target.getAttribute('data-project');
+        const dataId = e.target.getAttribute('data-id');
+        const div = document.querySelector(`[data-project="${dataProject}"][data-id="${dataId}"]`);
+        div.remove();
+
+        addTodo(editedTodo);
+    }
+
 
     input.forEach(element => {
         element.value = '';
@@ -115,7 +156,14 @@ const deleteTodo = (e)=>{
 
     localStorage.setItem(newObject.name, JSON.stringify(newObject));
     e.target.parentNode.parentNode.remove();
+    
+    //Delete the project if there are no todos in it
+    if(JSON.parse(localStorage.getItem(newObject.name)).todos.length == 0)
+    {
+        localStorage.removeItem(newObject.name);
+    }
 
+    location.reload();
 }
 
 export {addTodo, displayTodo, createTodo, editTodo, deleteTodo};
