@@ -1,22 +1,32 @@
-import {addTodo, displayTodo, createTodo, editTodo, deleteTodo} from './DOM'
+import {addTodo, displayTodos, createTodo, editTodo, deleteTodo} from './DOM'
+import {displayAllProjects} from './projects'
 import notie from 'notie'
 
+const main = document.querySelector('main');
 const navbar = document.querySelector('.navbar-container');
 const popup = document.querySelector('.popup');
 const btnAdd = document.querySelector('#btnAdd');
 const btnEdit = document.querySelector('#btnEdit');
-const container = document.querySelector('.container');
+const containerTodos = document.querySelector('.containerTodos');
+const containerProjects = document.querySelector('.containerProjects');
 const input = document.querySelectorAll('.input');
 
 window.addEventListener('load', () => {
-    displayTodo();
+    displayTodos('All');
     //localStorage.clear();
   });
 
 navbar.addEventListener('click', (e)=>{ 
 
+    //Load default page
+    if(e.target.classList.contains('logo') || e.target.id == 'default')
+    {
+        containerProjects.innerHTML = '';
+        displayTodos('All');
+    }
+
     // Show pop-up to add todos
-    if(e.target.classList.contains('add') || e.target.id == 'add to-do')
+    else if(e.target.classList.contains('add') || e.target.id == 'add to-do')
     {
         popup.style.display = 'flex';
         btnAdd.style.display = 'block';
@@ -26,9 +36,11 @@ navbar.addEventListener('click', (e)=>{
         });
     }
     
-    else if(e.target.className == 'projects')
+    //Show projects
+    else if(e.target.classList.contains('projects') || e.target.id == 'project')
     {
-        // See projects
+        containerTodos.innerHTML = '';
+        displayAllProjects();
     }
 })
 
@@ -39,11 +51,15 @@ popup.addEventListener('click', (e)=>{
         popup.style.display = 'none';
         btnAdd.style.display = 'none';
         btnEdit.style.display = 'none';
+        delete btnEdit.dataset.project;
+        delete btnEdit.dataset.id;
     }
 
     // Add and display todo
     else if(e.target.id == 'btnAdd')
     {
+        containerProjects.innerHTML = '';
+
         const todo = createTodo();
         addTodo(todo);
 
@@ -62,7 +78,16 @@ popup.addEventListener('click', (e)=>{
 
 })
 
-container.addEventListener('click', (e)=>{
+main.addEventListener('click', (e)=>{
+    if(e.target.id == 'title')
+    {
+        containerProjects.innerHTML = '';
+        displayTodos('All');
+    }
+})
+
+containerTodos.addEventListener('click', (e)=>{
+    
     // Delete todo
     if(e.target.className == 'far fa-trash-alt')
     {
@@ -97,6 +122,16 @@ container.addEventListener('click', (e)=>{
                 e.target.checked = false;
             }
         })
+    }
+})
+
+containerProjects.addEventListener('click', (e)=>{
+    console.log(e.target)
+    if(e.target.className == 'project' || e.target.className == 'projectTitle')
+    {
+        containerProjects.innerHTML = '';
+        const project = (e.target.className == 'project') ? e.target.getAttribute("data-project") : e.target.innerHTML;
+        displayTodos(`${project}`)
     }
 })
 

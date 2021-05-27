@@ -1,5 +1,5 @@
 import {Todo, Project} from './objects'
-const container = document.querySelector('.container');
+const containerTodos = document.querySelector('.containerTodos');
 const input = document.querySelectorAll('.input');
 
 //Create a new todo object
@@ -12,70 +12,127 @@ const createTodo = ()=>{
 }
 
 //Display todos on the screen
-const displayTodo = ()=>{
-    Object.keys(localStorage).forEach(function(project){
+const displayTodos = (fromProject)=>{
+
+    if(fromProject == 'All')
+    {
+        Object.keys(localStorage).forEach(function(project){
         
-        if(localStorage.length != 0)
-        {
-            const SIZE = JSON.parse(localStorage.getItem(project)).todos.length;
-
-            if(SIZE == 0)
+            if(localStorage.length != 0)
             {
-                localStorage.removeItem(project);
-            }
-
-            for(let i = 0; i < SIZE; i++)
-            {
-                if(document.querySelector(`[data-project="${project}"][data-id="${i}"]`) == null) //Display a todo only if it's not displayed yet.
+                const SIZE = JSON.parse(localStorage.getItem(project)).todos.length;
+    
+                if(SIZE == 0)
                 {
-                    let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
-                
-                    const todo = document.createElement('div');
-                    todo.setAttribute('class', 'todo');
-                    todo.setAttribute('data-project', `${project}`);
-                    todo.setAttribute('data-id', `${i}`);
-        
-                    // LHS
-                    const lhs = document.createElement('div');
-                    lhs.setAttribute('class', 'lhs');
-                    lhs.innerHTML = 
-                    `
-                        <input type="checkbox">
-                        <p class="title-todo">${currentTodo.title}</p>  
-                    `;
-                    todo.append(lhs);
-        
-                    // RHS
-                    const rhs = document.createElement('div');
-                    rhs.setAttribute('class', 'rhs');
-
-                    let color;
-                    switch(currentTodo.priority)
+                    localStorage.removeItem(project); //Delete a project if it's empty
+                }
+    
+                for(let i = 0; i < SIZE; i++)
+                {
+                    if(document.querySelector(`[data-project="${project}"][data-id="${i}"]`) == null) //Display a todo only if it's not displayed yet.
                     {
-                        case 'high':
-                            color = 'red';
-                            break;
-                        case 'medium':
-                            color = 'orange';
-                            break;
-                        case 'low':
-                            color = 'green';
-                            break;
+                        let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
+                    
+                        const todo = document.createElement('div');
+                        todo.setAttribute('class', 'todo');
+                        todo.setAttribute('data-project', `${project}`);
+                        todo.setAttribute('data-id', `${i}`);
+            
+                        // LHS
+                        const lhs = document.createElement('div');
+                        lhs.setAttribute('class', 'lhs');
+                        lhs.innerHTML = 
+                        `
+                            <input type="checkbox">
+                            <p class="title-todo">${currentTodo.title}</p>  
+                        `;
+                        todo.append(lhs);
+            
+                        // RHS
+                        const rhs = document.createElement('div');
+                        rhs.setAttribute('class', 'rhs');
+    
+                        let color;
+                        switch(currentTodo.priority)
+                        {
+                            case 'high':
+                                color = 'red';
+                                break;
+                            case 'medium':
+                                color = 'orange';
+                                break;
+                            case 'low':
+                                color = 'green';
+                                break;
+                        }
+    
+                        rhs.innerHTML = 
+                        `
+                            <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
+                            <i class="far fa-trash-alt" title="Delete todo"></i>
+                            <i class="far fa-edit" title="Edit"></i>
+                        `;
+                        todo.append(rhs);
+            
+                        containerTodos.append(todo);
                     }
-
-                    rhs.innerHTML = 
-                    `
-                        <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
-                        <i class="far fa-trash-alt" title="Delete todo"></i>
-                        <i class="far fa-edit" title="Edit"></i>
-                    `;
-                    todo.append(rhs);
-        
-                    container.append(todo);
                 }
             }
+        });
+    }
+    else
+    {
+        const SIZE = JSON.parse(localStorage.getItem(fromProject)).todos.length;
+
+        for(let i = 0; i < SIZE; i++)
+        {
+            let currentTodo = JSON.parse(localStorage.getItem(fromProject)).todos[i];
+        
+            const todo = document.createElement('div');
+            todo.setAttribute('class', 'todo');
+            todo.setAttribute('data-project', `${fromProject}`);
+            todo.setAttribute('data-id', `${i}`);
+
+            // LHS
+            const lhs = document.createElement('div');
+            lhs.setAttribute('class', 'lhs');
+            lhs.innerHTML = 
+            `
+                <input type="checkbox">
+                <p class="title-todo">${currentTodo.title}</p>  
+            `;
+            todo.append(lhs);
+
+            // RHS
+            const rhs = document.createElement('div');
+            rhs.setAttribute('class', 'rhs');
+
+            let color;
+            switch(currentTodo.priority)
+            {
+                case 'high':
+                    color = 'red';
+                    break;
+                case 'medium':
+                    color = 'orange';
+                    break;
+                case 'low':
+                    color = 'green';
+                    break;
+            }
+
+            rhs.innerHTML = 
+            `
+                <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
+                <i class="far fa-trash-alt" title="Delete todo"></i>
+                <i class="far fa-edit" title="Edit"></i>
+            `;
+            todo.append(rhs);
+
+            containerTodos.append(todo);
         }
-    });
+    }
+
 }
 
 //Add todo to a project
@@ -100,7 +157,7 @@ const addTodo = (todo)=>{
         localStorage.setItem(newObject.name, JSON.stringify(newObject));
     }
 
-    displayTodo();
+    displayTodos('All');
 }
 
 const editTodo = (e)=>{ 
@@ -166,4 +223,4 @@ const deleteTodo = (e)=>{
     location.reload();
 }
 
-export {addTodo, displayTodo, createTodo, editTodo, deleteTodo};
+export {addTodo, displayTodos, createTodo, editTodo, deleteTodo};
