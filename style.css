@@ -1,16 +1,16 @@
 :root{
-    font-size: 16px;
-    font-family: 'Noto Sans KR', sans-serif;
-    --text-primary:#b6b6b6;
-    --text-secondary:#ececec;
-    --bg-primary:#23232e;
-    --bg-secondary:#141418;
-    --transition-speed: 600ms;
+  font-size: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+  --text-primary:#b6b6b6;
+  --text-secondary:#ececec;
+  --bg-primary:#23232e;
+  --bg-secondary:#141418;
+  --transition-speed: 600ms;
 }
 
 body{
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* NAV-BAR */
@@ -18,92 +18,102 @@ body{
 .fa-calendar-alt,
 .fa-tasks,
 .fa-chevron-circle-right{
-    font-size: 3em;
-    color: #5cb5fd;
+  font-size: 3em;
+  color: #5cb5fd;
 }
 
 .navbar-container{
-    position: fixed;
-    background-color: var(--bg-primary);
-    transition: width 200ms ease;
+  position: fixed;
+  background-color: var(--bg-primary);
+  transition: width 200ms ease;
 }
 
 .navbar-nav{
-    list-style: none;
-    padding:0;
-    margin:0;
-    display: flex;
-    flex-direction: column;
+  list-style: none;
+  padding:0;
+  margin:0;
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-item{
-    width: 100%;
+  width: 100%;
 }
 
 .nav-link{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5rem;
-    color:var(--text-primary);
-    text-decoration: none;
-    filter: grayscale(100%) opacity(0.7);
-    transition: var(--transition-speed);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  color:var(--text-primary);
+  text-decoration: none;
+  filter: grayscale(100%) opacity(0.7);
+  transition: var(--transition-speed);
 }
 
 .nav-link:hover{
-    filter: grayscale(0%) opacity(1);
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
+  filter: grayscale(0%) opacity(1);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
 }
 
 .link-text{
-    display: none;
-    margin-left: 1rem;
+  display: none;
+  margin-left: 1rem;
 }
 
 .logo{
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: var(--text-secondary);
-    letter-spacing: 0.3ch;
-    width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  letter-spacing: 0.3ch;
+  width: 100%;
 }
 
 .logo
 .fa-chevron-circle-right{
-    transform: rotate(0deg);
-    transition: transform var(--transition-speed);
+  transform: rotate(0deg);
+  transition: transform var(--transition-speed);
 }
 
 .navbar-container:hover
 .logo 
 .fa-chevron-circle-right{
-    transform: rotate(-360deg);
+  transform: rotate(-360deg);
 }
 
 
 /*MAIN*/
 main{
-    text-align: center;
-    margin-left: 5rem;
-}
-main h1{
-    font-family: 'Pacifico', cursive;
+  margin-left: 5rem;
 }
 
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.title{
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  width: 40%;
+  margin: 2% auto;
+  border-radius: 20px;
+}
+
+.title:hover{
+  background-color: rgb(230, 230, 230);
+  cursor: pointer;
+}
+
+/*Container with todos*/
+.containerTodos{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .todo{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .todo:hover{
@@ -129,6 +139,47 @@ main h1{
 .far{
   margin-left: 5px;
 }
+
+.fa-edit:hover{
+  color: gray;
+}
+
+/*Container with projects*/
+
+.containerProjects{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.project{
+  border: 1px solid grey;
+  border-radius: 5%;
+  background-color: var(--bg-primary);
+  padding: 0 10px 0 10px; 
+  width: 20%;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  margin-top: 1%;
+  word-wrap: break-word;
+  cursor: pointer;
+  color: white;
+}
+
+.project:hover{
+  color: #5cb5fd;
+}
+
+.iEdit,
+.iDelete{
+  color: white;
+}
+
+.iEdit:hover{
+  color: #5cb5fd;
+}
+
+
 
 /*POPUP-SCREEN*/
 .popup{
