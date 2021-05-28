@@ -1,5 +1,5 @@
 import {addTodo, displayTodos, createTodo, editTodo, deleteTodo} from './DOM'
-import {displayAllProjects} from './projects'
+import {displayProjects, deleteProject} from './projects'
 import notie from 'notie'
 
 const main = document.querySelector('main');
@@ -40,7 +40,7 @@ navbar.addEventListener('click', (e)=>{
     else if(e.target.classList.contains('projects') || e.target.id == 'project')
     {
         containerTodos.innerHTML = '';
-        displayAllProjects();
+        displayProjects();
     }
 })
 
@@ -133,6 +133,20 @@ containerProjects.addEventListener('click', (e)=>{
         const project = (e.target.className == 'project') ? e.target.getAttribute("data-project") : e.target.innerHTML;
         displayTodos(`${project}`)
     }
+
+    else if(e.target.className == 'far fa-trash-alt iDelete')
+    {
+        notie.confirm({
+            text: 'Delete project?',
+            cancelText: 'No',
+            submitCallback: () => {
+                deleteProject(e.target.parentNode.getAttribute("data-project"));
+            }
+        })
+    }
+    
+
+
 })
 
 console.log(JSON.parse(localStorage.getItem('Study')))

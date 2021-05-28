@@ -1,10 +1,6 @@
-import {addTodo, displayTodo, createTodo, editTodo, deleteTodo} from './DOM'
-import {Todo, Project} from './objects'
-import notie from 'notie'
-
 const containerProjects = document.querySelector('.containerProjects');
 
-const displayAllProjects = () => {
+const displayProjects = () => {
     Object.keys(localStorage).forEach(function(projectName){
 
         if(document.querySelector(`[data-project="${projectName}"]`) == null)
@@ -16,7 +12,6 @@ const displayAllProjects = () => {
             project.innerHTML = 
             `
                 <p class = 'projectTitle'>${projectName}</p>
-                <i class="far fa-edit iEdit" title="Edit" ></i>
                 <i class="far fa-trash-alt iDelete" title="Delete todo"></i>
             `;
             containerProjects.append(project);
@@ -25,6 +20,9 @@ const displayAllProjects = () => {
     });
 }
 
+const deleteProject = (project) =>{
+    localStorage.removeItem(project);
+    document.querySelector(`[data-project="${project}"]`).remove();
+}
 
-
-export{displayAllProjects}
+export{displayProjects, deleteProject}
