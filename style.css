@@ -8,6 +8,12 @@
   --transition-speed: 600ms;
 }
 
+/* Animation to popup-content */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
 body{
   margin: 0;
   padding: 0;
@@ -114,6 +120,9 @@ main{
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  transition: 200ms ease;
+  animation-name: animatetop;
+  animation-duration: 0.4s
 }
 
 .todo:hover{
@@ -130,6 +139,7 @@ main{
 
 .lhs p{
   margin-left: 5px;
+  word-break: break-word;
 }
 
 .fa-trash-alt:hover{
@@ -153,17 +163,18 @@ main{
 }
 
 .project{
-  border: 1px solid grey;
-  border-radius: 5%;
   background-color: var(--bg-primary);
   padding: 0 10px 0 10px; 
-  width: 20%;
+  width: 10%;
   text-align: center;
   font-family: 'Pacifico', cursive;
   margin-top: 1%;
   word-wrap: break-word;
   cursor: pointer;
   color: white;
+  transition: 200ms ease;
+  animation-name: animatetop;
+  animation-duration: 0.2s
 }
 
 .project:hover{
@@ -205,12 +216,6 @@ main{
   transition: 200ms ease;
   animation-name: animatetop;
   animation-duration: 0.4s
-}
-
-/* Animation to popup-content */
-@keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
 }
 
 .popup-content
@@ -281,6 +286,11 @@ input{
     .popup-content{
       margin-right: 0;
       margin-left: 0;
+    }
+
+    .project{
+      margin-top: 10%;
+      flex-basis: 33.33%;
     }
   }
   
