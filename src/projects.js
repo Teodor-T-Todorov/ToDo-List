@@ -1,6 +1,9 @@
 const containerProjects = document.querySelector('.containerProjects');
+const title = document.querySelector('.title');
 
 const displayProjects = () => {
+    title.textContent = 'Projects';
+
     Object.keys(localStorage).forEach(function(projectName){
 
         if(document.querySelector(`[data-project="${projectName}"]`) == null)

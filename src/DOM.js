@@ -1,21 +1,25 @@
 import {Todo, Project} from './objects'
 const containerTodos = document.querySelector('.containerTodos');
 const input = document.querySelectorAll('.input');
+const title = document.querySelector('.title');
 
 //Create a new todo object
 const createTodo = ()=>{
-    const title = document.querySelector('#todoInput');
-    const project = document.querySelector('#projectInput');
-    const description = document.querySelector('#descriptionInput');
-    const priority = document.querySelector('.priorities');
-    return new Todo(title.value, project.value, description.value, priority.value);
+    const title = document.querySelector('#todoInput').value;
+    const project = document.querySelector('#projectInput').value;
+    const description = document.querySelector('#descriptionInput').value;
+    const date = document.querySelector('#dateInput').value;
+    const priority = document.querySelector('.priorities').value;
+    return new Todo(title, project, description, date, priority);
 }
 
 //Display todos on the screen
 const displayTodos = (fromProject)=>{
 
-    if(fromProject == 'All')
+    if(fromProject == 'All') //Show all todos
     {
+        title.textContent = 'TO-DO LIST';
+
         Object.keys(localStorage).forEach(function(project){
         
             if(localStorage.length != 0)
@@ -80,8 +84,10 @@ const displayTodos = (fromProject)=>{
             }
         });
     }
-    else
+    else //Show todos only from 1 project
     {
+        title.textContent = `${fromProject}`.toUpperCase();
+
         const SIZE = JSON.parse(localStorage.getItem(fromProject)).todos.length;
 
         for(let i = 0; i < SIZE; i++)
@@ -160,24 +166,30 @@ const addTodo = (todo)=>{
     displayTodos('All');
 }
 
-const editTodo = (e)=>{ 
+const editTodo = (e)=>{
+
+    const todoDiv = document.querySelector(`[data-project="${e.target.getAttribute('data-project')}"][data-id="${e.target.getAttribute('data-id')}"]`);
+    const todoTitleDiv = todoDiv.childNodes[0].childNodes[3];
+
     const project = e.target.getAttribute('data-project');
     const id = e.target.getAttribute('data-id');
 
-    const currentProject = document.querySelector('#projectInput').value;
+    const todoTitle = document.querySelector('#todoInput').value;
+    const newProject = document.querySelector('#projectInput').value;
+    
     const editedTodo = createTodo();
     const arr = JSON.parse(localStorage.getItem(project)).todos;
 
     //If we edit in the same project
-    if(currentProject == project)
+    if(newProject == project)
     {    
         arr.splice(id, 1, editedTodo);
         let newObject = JSON.parse(localStorage.getItem(project));
         newObject.todos = arr;
     
         localStorage.setItem(newObject.name, JSON.stringify(newObject));
-
-        location.reload();
+        
+        todoTitleDiv.textContent = `${todoTitle}`
     }
 
     else
@@ -187,10 +199,7 @@ const editTodo = (e)=>{
         newObject.todos = arr;
         localStorage.setItem(newObject.name, JSON.stringify(newObject));
         
-        const dataProject = e.target.getAttribute('data-project');
-        const dataId = e.target.getAttribute('data-id');
-        const div = document.querySelector(`[data-project="${dataProject}"][data-id="${dataId}"]`);
-        div.remove();
+        todoDiv.remove();
 
         addTodo(editedTodo);
     }
@@ -220,7 +229,7 @@ const deleteTodo = (e)=>{
         localStorage.removeItem(newObject.name);
     }
 
-    location.reload();
+    e.target.parentNode.parentNode.remove();
 }
 
 export {addTodo, displayTodos, createTodo, editTodo, deleteTodo};

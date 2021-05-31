@@ -2,7 +2,6 @@ import {addTodo, displayTodos, createTodo, editTodo, deleteTodo} from './DOM'
 import {displayProjects, deleteProject} from './projects'
 import notie from 'notie'
 
-const main = document.querySelector('main');
 const navbar = document.querySelector('.navbar-container');
 const popup = document.querySelector('.popup');
 const btnAdd = document.querySelector('#btnAdd');
@@ -19,10 +18,14 @@ window.addEventListener('load', () => {
 navbar.addEventListener('click', (e)=>{ 
 
     //Load default page
-    if(e.target.classList.contains('logo') || e.target.id == 'default')
+    if(e.target.classList.contains('home') || e.target.id == 'home')
     {
-        containerProjects.innerHTML = '';
-        displayTodos('All');
+        if(document.querySelector('.title').textContent != 'TO-DO LIST')
+        {
+            location.reload();
+            containerProjects.innerHTML = '';
+            displayTodos('All');
+        }
     }
 
     // Show pop-up to add todos
@@ -78,18 +81,15 @@ popup.addEventListener('click', (e)=>{
 
 })
 
-main.addEventListener('click', (e)=>{
-    if(e.target.id == 'title')
-    {
-        containerProjects.innerHTML = '';
-        displayTodos('All');
-    }
-})
-
 containerTodos.addEventListener('click', (e)=>{
+
+    if(e.target.className == 'todo' || e.target.className == 'lhs' || e.target.className == 'title-todo')
+    {
+        //Show info for TODO
+    }
     
     // Delete todo
-    if(e.target.className == 'far fa-trash-alt')
+    else if(e.target.className == 'far fa-trash-alt')
     {
         notie.confirm({
             text: 'Do you want to delete this todo?',
@@ -144,15 +144,9 @@ containerProjects.addEventListener('click', (e)=>{
             }
         })
     }
-    
-
-
 })
+
 
 console.log(JSON.parse(localStorage.getItem('Study')))
 console.log(JSON.parse(localStorage.getItem('Workout')))
 console.log(localStorage)
-
-
-
-//console.log('retrievedObject: ', JSON.parse(localStorage.getItem("Study")))
