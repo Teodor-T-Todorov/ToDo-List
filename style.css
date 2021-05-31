@@ -21,7 +21,7 @@ body{
 
 /* NAV-BAR */
 .fa-plus-circle,
-.fa-calendar-alt,
+.fa-home,
 .fa-tasks,
 .fa-chevron-circle-right{
   font-size: 3em;
@@ -104,11 +104,6 @@ main{
   border-radius: 20px;
 }
 
-.title:hover{
-  background-color: rgb(230, 230, 230);
-  cursor: pointer;
-}
-
 /*Container with todos*/
 .containerTodos{
   display: flex;
@@ -152,6 +147,11 @@ main{
 
 .fa-edit:hover{
   color: gray;
+}
+
+.textProject{
+  text-align: center;
+  font-family: 'Pacifico', cursive;
 }
 
 /*Container with projects*/
@@ -207,9 +207,9 @@ main{
 
 .popup-content{
   min-height: 45vh;
-  width: clamp(20%,50%,70%);
+  width: clamp(20%,40%,70%);
   background: #fff;
-  padding: 5%;
+  padding: 3%;
   border-radius: 5px;
   margin-left: 5rem;
   position: relative;
@@ -219,7 +219,7 @@ main{
 }
 
 .popup-content
-input{
+.input{
   margin: 5% auto;
   display: block;
   width: 90%;
@@ -227,11 +227,25 @@ input{
   border: 1px solid gray;
 }
 
+.dateAndLabel{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.date{
+  margin: 2%;
+  padding: 0 1%;
+}
+
 .priorities{
   display: inline-block;
 }
 
-.btnAddTodo{
+.label{
+  margin: 4%;
+}
+
+.btnTodo{
   font-family: Arial, Helvetica, sans-serif;
   background: #2b2e30;
   padding: 3% 9%;
@@ -244,6 +258,10 @@ input{
   transition: 0.4s;
   display: block;
   margin-top: 6%;
+}
+
+.btnTodo:hover{
+  color: #5cb5fd;
 }
 
 #btnAdd,
@@ -286,6 +304,32 @@ input{
     .popup-content{
       margin-right: 0;
       margin-left: 0;
+      width: 80%;
+    }
+
+    .popup-content .input{
+      margin: 8% auto;
+    }
+
+    .dateAndLabel{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+
+    .date{
+      margin: 1% auto;
+      width: 50%;
+      padding: 2%;
+    }
+
+    .priorities{
+      padding: 1%;
+    }
+
+    .label{
+      margin: 0;
+      margin-top: 6%;
     }
 
     .project{

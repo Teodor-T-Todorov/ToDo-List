@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="style.css">
+    <!--FONT-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!--FONT-->
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css"> <!--NOTIE library-->
-    <script src="https://kit.fontawesome.com/9e2267d4eb.js" crossorigin="anonymous"></script> <!--ICONS-->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+    <!--NOTIE library-->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css"> 
+    <!--ICONS-->
+    <script src="https://kit.fontawesome.com/9e2267d4eb.js" crossorigin="anonymous"></script> 
+
 </head>
 <body>
 
@@ -27,9 +31,9 @@
         <ul class = "navbar-nav">
             
             <li class="nav-item">
-                <a href="#" class="nav-link calendar">
-                    <i class="fas fa-calendar-alt calendar"></i>
-                    <span class="link-text" id="to-day">To-Day</span>
+                <a href="#" class="nav-link home">
+                    <i class="fas fa-home home"></i>
+                    <span class="link-text" id="home">Home</span>
                 </a>
             </li>
 
@@ -61,6 +65,8 @@
 
 
         </div>
+
+
     </main>
 
     <div class="popup" id="add">
@@ -68,17 +74,23 @@
             <input type="text" placeholder="To-Do" class="input" id="todoInput">
             <input type="text" placeholder="Project" class="input" id="projectInput">
             <input type="text" placeholder="Description" class="input" id="descriptionInput">
-
             
-            <label for="priorities">Priority:</label>
-            <select name="priorities" class="priorities">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-              </select>
+            
+            <div class="dateAndLabel">
+                <input type="date" class="date" id="dateInput">
 
-            <a href="#" class="btnAddTodo" id="btnAdd">Add todo</a>
-            <a href="#" class="btnAddTodo" id="btnEdit">Edit todo</a>
+                <div class="label">
+                    <label for="priorities">Priority:</label>
+                    <select name="priorities" class="priorities">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                      </select>
+                </div>
+            </div>
+            
+            <a href="#" class="btnTodo" id="btnAdd">Add todo</a>
+            <a href="#" class="btnTodo" id="btnEdit">Edit todo</a>
         </div>
     </div>
 
