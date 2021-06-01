@@ -1,4 +1,4 @@
-import {addTodo, displayTodos, createTodo, editTodo, deleteTodo} from './DOM'
+import {addTodo, displayAllTodos, displayTodo, createTodo, editTodo, deleteTodo} from './todos'
 import {displayProjects, deleteProject} from './projects'
 import notie from 'notie'
 
@@ -11,7 +11,7 @@ const containerProjects = document.querySelector('.containerProjects');
 const input = document.querySelectorAll('.input');
 
 window.addEventListener('load', () => {
-    displayTodos('All');
+    displayAllTodos('All');
     //localStorage.clear();
   });
 
@@ -22,9 +22,9 @@ navbar.addEventListener('click', (e)=>{
     {
         if(document.querySelector('.title').textContent != 'TO-DO LIST')
         {
-            location.reload();
+            containerTodos.innerHTML = '';
             containerProjects.innerHTML = '';
-            displayTodos('All');
+            displayAllTodos('All');
         }
     }
 
@@ -126,12 +126,12 @@ containerTodos.addEventListener('click', (e)=>{
 })
 
 containerProjects.addEventListener('click', (e)=>{
-    console.log(e.target)
+
     if(e.target.className == 'project' || e.target.className == 'projectTitle')
     {
         containerProjects.innerHTML = '';
         const project = (e.target.className == 'project') ? e.target.getAttribute("data-project") : e.target.innerHTML;
-        displayTodos(`${project}`)
+        displayAllTodos(`${project}`)
     }
 
     else if(e.target.className == 'far fa-trash-alt iDelete')

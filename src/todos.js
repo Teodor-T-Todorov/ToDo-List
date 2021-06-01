@@ -13,8 +13,7 @@ const createTodo = ()=>{
     return new Todo(title, project, description, date, priority);
 }
 
-//Display todos on the screen
-const displayTodos = (fromProject)=>{
+const displayAllTodos = (fromProject)=>{
 
     if(fromProject == 'All') //Show all todos
     {
@@ -33,53 +32,52 @@ const displayTodos = (fromProject)=>{
     
                 for(let i = 0; i < SIZE; i++)
                 {
-                    if(document.querySelector(`[data-project="${project}"][data-id="${i}"]`) == null) //Display a todo only if it's not displayed yet.
+
+                    let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
+                
+                    const todo = document.createElement('div');
+                    todo.setAttribute('class', 'todo');
+                    todo.setAttribute('data-project', `${project}`);
+                    todo.setAttribute('data-id', `${i}`);
+        
+                    // LHS
+                    const lhs = document.createElement('div');
+                    lhs.setAttribute('class', 'lhs');
+                    lhs.innerHTML = 
+                    `
+                        <input type="checkbox">
+                        <p class="title-todo">${currentTodo.title}</p>  
+                    `;
+                    todo.append(lhs);
+        
+                    // RHS
+                    const rhs = document.createElement('div');
+                    rhs.setAttribute('class', 'rhs');
+
+                    let color;
+                    switch(currentTodo.priority)
                     {
-                        let currentTodo = JSON.parse(localStorage.getItem(project)).todos[i];
-                    
-                        const todo = document.createElement('div');
-                        todo.setAttribute('class', 'todo');
-                        todo.setAttribute('data-project', `${project}`);
-                        todo.setAttribute('data-id', `${i}`);
-            
-                        // LHS
-                        const lhs = document.createElement('div');
-                        lhs.setAttribute('class', 'lhs');
-                        lhs.innerHTML = 
-                        `
-                            <input type="checkbox">
-                            <p class="title-todo">${currentTodo.title}</p>  
-                        `;
-                        todo.append(lhs);
-            
-                        // RHS
-                        const rhs = document.createElement('div');
-                        rhs.setAttribute('class', 'rhs');
-    
-                        let color;
-                        switch(currentTodo.priority)
-                        {
-                            case 'high':
-                                color = 'red';
-                                break;
-                            case 'medium':
-                                color = 'orange';
-                                break;
-                            case 'low':
-                                color = 'green';
-                                break;
-                        }
-    
-                        rhs.innerHTML = 
-                        `
-                            <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
-                            <i class="far fa-trash-alt" title="Delete todo"></i>
-                            <i class="far fa-edit" title="Edit"></i>
-                        `;
-                        todo.append(rhs);
-            
-                        containerTodos.append(todo);
+                        case 'high':
+                            color = 'red';
+                            break;
+                        case 'medium':
+                            color = 'orange';
+                            break;
+                        case 'low':
+                            color = 'green';
+                            break;
                     }
+
+                    rhs.innerHTML = 
+                    `
+                        <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
+                        <i class="far fa-trash-alt" title="Delete todo"></i>
+                        <i class="far fa-edit" title="Edit"></i>
+                    `;
+                    todo.append(rhs);
+        
+                    containerTodos.append(todo);
+                    
                 }
             }
         });
@@ -141,6 +139,55 @@ const displayTodos = (fromProject)=>{
 
 }
 
+const displayTodo = (fromProject)=>{
+    const SIZE = JSON.parse(localStorage.getItem(fromProject)).todos.length - 1;
+    
+    let currentTodo = JSON.parse(localStorage.getItem(fromProject)).todos[SIZE];
+        
+    const todo = document.createElement('div');
+    todo.setAttribute('class', 'todo');
+    todo.setAttribute('data-project', `${fromProject}`);
+    todo.setAttribute('data-id', `${SIZE}`);
+
+    // LHS
+    const lhs = document.createElement('div');
+    lhs.setAttribute('class', 'lhs');
+    lhs.innerHTML = 
+    `
+        <input type="checkbox">
+        <p class="title-todo">${currentTodo.title}</p>  
+    `;
+    todo.append(lhs);
+
+    // RHS
+    const rhs = document.createElement('div');
+    rhs.setAttribute('class', 'rhs');
+
+    let color;
+    switch(currentTodo.priority)
+    {
+        case 'high':
+            color = 'red';
+            break;
+        case 'medium':
+            color = 'orange';
+            break;
+        case 'low':
+            color = 'green';
+            break;
+    }
+
+    rhs.innerHTML = 
+    `
+        <i class="far fa-flag" title="Priority" style = "color:${color}"></i>
+        <i class="far fa-trash-alt" title="Delete todo"></i>
+        <i class="far fa-edit" title="Edit"></i>
+    `;
+    todo.append(rhs);
+
+    containerTodos.append(todo);
+}
+
 //Add todo to a project
 const addTodo = (todo)=>{
     
@@ -163,7 +210,7 @@ const addTodo = (todo)=>{
         localStorage.setItem(newObject.name, JSON.stringify(newObject));
     }
 
-    displayTodos('All');
+    displayTodo(todo.project);
 }
 
 const editTodo = (e)=>{
@@ -232,4 +279,4 @@ const deleteTodo = (e)=>{
     e.target.parentNode.parentNode.remove();
 }
 
-export {addTodo, displayTodos, createTodo, editTodo, deleteTodo};
+export {addTodo, displayAllTodos, displayTodo, createTodo, editTodo, deleteTodo};
