@@ -34,6 +34,15 @@ navbar.addEventListener('click', (e)=>{
         popup.style.display = 'flex';
         btnAdd.style.display = 'block';
 
+        if(document.querySelector('.title').textContent != 'TO-DO LIST')
+        {
+            document.querySelector('#projectInput').style.display = 'none';
+        }
+        else
+        {
+            document.querySelector('#projectInput').style.display = 'block';
+        }
+
         input.forEach(element => {
             element.value = '';
         });

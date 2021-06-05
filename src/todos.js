@@ -6,7 +6,15 @@ const title = document.querySelector('.title');
 //Create a new todo object
 const createTodo = ()=>{
     const title = document.querySelector('#todoInput').value;
-    const project = document.querySelector('#projectInput').value;
+    let project;
+    if(document.querySelector('.title').textContent == 'TO-DO LIST')
+    {
+       project = document.querySelector('#projectInput').value;
+    }
+    else
+    {
+        project = document.querySelector('.title').textContent;
+    }
     const description = document.querySelector('#descriptionInput').value;
     const date = document.querySelector('#dateInput').value;
     const priority = document.querySelector('.priorities').value;
