@@ -1,4 +1,4 @@
-import {addTodo, displayAllTodos, displayTodo, createTodo, editTodo, deleteTodo} from './todos'
+import {addTodo, displayAllTodos, displayTodosFromProject, displayTodo, createTodo, editTodo, deleteTodo} from './todos'
 import {displayProjects, deleteProject} from './projects'
 import notie from 'notie'
 
@@ -11,20 +11,20 @@ const containerProjects = document.querySelector('.containerProjects');
 const input = document.querySelectorAll('.input');
 
 window.addEventListener('load', () => {
-    displayAllTodos('All');
+    displayAllTodos();
     //localStorage.clear();
   });
 
 navbar.addEventListener('click', (e)=>{ 
 
     //Load default page
-    if(e.target.classList.contains('home') || e.target.id == 'home')
+    if (e.target.classList.contains('home') || e.target.id == 'home')
     {
         if(document.querySelector('.title').textContent != 'TO-DO LIST')
         {
             containerTodos.innerHTML = '';
             containerProjects.innerHTML = '';
-            displayAllTodos('All');
+            displayAllTodos();
         }
     }
 
@@ -34,13 +34,13 @@ navbar.addEventListener('click', (e)=>{
         popup.style.display = 'flex';
         btnAdd.style.display = 'block';
 
-        if(document.querySelector('.title').textContent != 'TO-DO LIST')
+        if (document.querySelector('.title').textContent == 'TO-DO LIST')
         {
-            document.querySelector('#projectInput').style.display = 'none';
+            document.querySelector('#projectInput').style.display = 'block';
         }
         else
         {
-            document.querySelector('#projectInput').style.display = 'block';
+            document.querySelector('#projectInput').style.display = 'none';
         }
 
         input.forEach(element => {
@@ -49,7 +49,7 @@ navbar.addEventListener('click', (e)=>{
     }
     
     //Show projects
-    else if(e.target.classList.contains('projects') || e.target.id == 'project')
+    else if (e.target.classList.contains('projects') || e.target.id == 'project')
     {
         containerTodos.innerHTML = '';
         displayProjects();
@@ -58,7 +58,7 @@ navbar.addEventListener('click', (e)=>{
 
 popup.addEventListener('click', (e)=>{
     // Close pop-up
-    if(e.target.className == 'popup')
+    if (e.target.className == 'popup')
     {
         popup.style.display = 'none';
         btnAdd.style.display = 'none';
@@ -68,7 +68,7 @@ popup.addEventListener('click', (e)=>{
     }
 
     // Add and display todo
-    else if(e.target.id == 'btnAdd')
+    else if (e.target.id == 'btnAdd')
     {
         containerProjects.innerHTML = '';
 
@@ -79,7 +79,7 @@ popup.addEventListener('click', (e)=>{
         btnAdd.style.display = 'none';
     }
 
-    else if(e.target.id == 'btnEdit')
+    else if (e.target.id == 'btnEdit')
     {
         editTodo(e);
         
@@ -92,13 +92,13 @@ popup.addEventListener('click', (e)=>{
 
 containerTodos.addEventListener('click', (e)=>{
 
-    if(e.target.className == 'todo' || e.target.className == 'lhs' || e.target.className == 'title-todo')
+    if (e.target.className == 'todo' || e.target.className == 'lhs' || e.target.className == 'title-todo')
     {
         //Show info for TODO
     }
     
     // Delete todo
-    else if(e.target.className == 'far fa-trash-alt')
+    else if (e.target.className == 'far fa-trash-alt')
     {
         notie.confirm({
             text: 'Do you want to delete this todo?',
@@ -110,7 +110,7 @@ containerTodos.addEventListener('click', (e)=>{
     }
 
     // Edit todo
-    else if(e.target.className == 'far fa-edit')
+    else if (e.target.className == 'far fa-edit')
     {
         popup.style.display = 'flex';
         btnEdit.style.display = 'block';
@@ -119,7 +119,7 @@ containerTodos.addEventListener('click', (e)=>{
     }
 
     // Complete todo
-    else if(e.target.type == 'checkbox')
+    else if (e.target.type == 'checkbox')
     {
         notie.confirm({
             text: 'Complete todo?',
@@ -136,14 +136,14 @@ containerTodos.addEventListener('click', (e)=>{
 
 containerProjects.addEventListener('click', (e)=>{
 
-    if(e.target.className == 'project' || e.target.className == 'projectTitle')
+    if (e.target.className == 'project' || e.target.className == 'projectTitle')
     {
         containerProjects.innerHTML = '';
         const project = (e.target.className == 'project') ? e.target.getAttribute("data-project") : e.target.innerHTML;
-        displayAllTodos(`${project}`)
+        displayTodosFromProject(`${project}`)
     }
 
-    else if(e.target.className == 'far fa-trash-alt iDelete')
+    else if (e.target.className == 'far fa-trash-alt iDelete')
     {
         notie.confirm({
             text: 'Delete project?',
