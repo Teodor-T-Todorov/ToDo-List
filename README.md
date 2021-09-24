@@ -13,3 +13,4 @@ Todo web app where you could create todos and projects for your upcoming tasks. 
 ### Goals from the project:
 - Learn working with webpack and modules.
 - Learn working with local storage and nested objects.
+- Learn using the Single Responsibility Principle.
